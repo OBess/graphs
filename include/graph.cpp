@@ -30,13 +30,19 @@ void or_graph::remove(unsigned a) noexcept
 // Algorithms
 std::vector<unsigned> or_graph::bfs(unsigned start) const noexcept
 {
+   if (m_nodes.count(start) == 0 || empty())
+      return {};
+
    std::queue<unsigned> storage;
    storage.push(start);
 
    std::vector<unsigned> path;
    std::vector<bool> visited;
    visited.resize(std::max_element(m_nodes.begin(), m_nodes.end(),
-                        [](const auto &l, const auto &r) { return l.first < r.first; })->first + 1);
+                                   [](const auto &l, const auto &r)
+                                   { return l.first < r.first; })
+                      ->first +
+                  1);
    visited[start] = true;
 
    while (!storage.empty())
@@ -59,11 +65,43 @@ std::vector<unsigned> or_graph::bfs(unsigned start) const noexcept
 
 std::vector<unsigned> or_graph::dfs(unsigned start) const noexcept
 {
-   return {};
+   if (m_nodes.count(start) == 0 || empty())
+      return {};
+
+   std::stack<unsigned> storage;
+   storage.push(start);
+
+   std::vector<unsigned> path;
+   std::vector<bool> visited;
+   visited.resize(std::max_element(m_nodes.begin(), m_nodes.end(),
+                                   [](const auto &l, const auto &r)
+                                   { return l.first < r.first; })
+                      ->first +
+                  1);
+   visited[start] = true;
+
+   while (!storage.empty())
+   {
+      auto value = storage.top();
+      const auto &tmp = m_nodes.at(value);
+      path.push_back(value);
+      storage.pop();
+
+      for (const auto &t : tmp)
+         if (!visited[t.first])
+         {
+            storage.push(t.first);
+            visited[t.first] = true;
+         }
+   }
+
+   return path;
 }
 
 std::vector<unsigned> or_graph::shortest(unsigned start, unsigned end) const noexcept
 {
+   if (m_nodes.count(start) == 0 || empty())
+      return {};
    return {};
 }
 
