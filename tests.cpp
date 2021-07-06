@@ -129,15 +129,15 @@ TEST(or_graph, DFS)
       ASSERT_EQ(v1[i], r1[i]);
 }
 
-// TEST(or_graph, Dijkstra)
-// {
-//    or_graph gr = make_or_graph(path);
+TEST(or_graph, Dijkstra)
+{
+   or_graph gr = make_or_graph("graph2.txt");
 
-//    std::vector<int> v{0, 2, 3, 4};
-//    auto r = gr.shortest(0, 4);
-//    for (size_t i = 0; i < v.size(); ++i)
-//       ASSERT_EQ(v[i], r[i]);
-// }
+   std::vector<int> v{0, 2, 3, 4};
+   auto r = gr.shortest(0, 4);
+   for (size_t i = 0; i < v.size(); ++i)
+      ASSERT_EQ(v[i], r[i]);
+}
 
 // ---------------------- ~TESTS
 
