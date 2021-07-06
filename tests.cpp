@@ -80,24 +80,24 @@ TEST(or_graph, RemoveNodeOrConnection)
    ASSERT_EQ(gr(5, 1), 2);
 }
 
-// TEST(or_graph, CopyConstructor)
-// {
-//    or_graph gr = make_or_graph(path);
+TEST(or_graph, CopyConstructor)
+{
+   or_graph gr = make_or_graph(path);
 
-//    or_graph gr1(gr);
-//    ASSERT_EQ(gr1(0, 1), 3);
-//    ASSERT_EQ(gr1(1, 0), 4);
-//    ASSERT_EQ(gr1(0, 2), 2);
-//    ASSERT_EQ(gr1(2, 3), 5);
-//    ASSERT_EQ(gr1(2, 4), 7);
+   or_graph gr1(gr);
+   ASSERT_EQ(gr1(0, 1), 3);
+   ASSERT_EQ(gr1(1, 0), 4);
+   ASSERT_EQ(gr1(0, 2), 2);
+   ASSERT_EQ(gr1(2, 3), 5);
+   ASSERT_EQ(gr1(2, 4), 7);
 
-//    or_graph g2 = gr1;
-//    ASSERT_EQ(gr2(0, 1), 3);
-//    ASSERT_EQ(gr2(1, 0), 4);
-//    ASSERT_EQ(gr2(0, 2), 2);
-//    ASSERT_EQ(gr2(2, 3), 5);
-//    ASSERT_EQ(gr2(2, 4), 7);
-// }
+   or_graph gr2 = gr1;
+   ASSERT_EQ(gr2(0, 1), 3);
+   ASSERT_EQ(gr2(1, 0), 4);
+   ASSERT_EQ(gr2(0, 2), 2);
+   ASSERT_EQ(gr2(2, 3), 5);
+   ASSERT_EQ(gr2(2, 4), 7);
+}
 
 // TEST(or_graph, BFS)
 // {
