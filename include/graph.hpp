@@ -24,13 +24,14 @@ public:
 
    // Logic
    void add(unsigned a, unsigned b, unsigned weight) noexcept;
-   
+
    void remove(unsigned a, unsigned b) noexcept;
    void remove(unsigned a) noexcept;
 
    // Algorithms
    std::vector<unsigned> bfs(unsigned start) const noexcept;
    std::vector<unsigned> dfs(unsigned start) const noexcept;
+   // --- Dijkstra's Algorithm
    std::vector<unsigned> shortest(unsigned start, unsigned end) const noexcept;
 
    // Getters
@@ -47,6 +48,9 @@ public:
    friend void swap(or_graph &a, or_graph &b) noexcept;
 
 private:
+   // Auxiliary
+   size_t max_node() const noexcept;
+
    std::map<unsigned, value> m_nodes;
 
    int m_bad_result = -1;
