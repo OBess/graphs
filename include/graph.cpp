@@ -16,10 +16,26 @@ void or_graph::add(int a, int b, unsigned weight) noexcept
    m_nodes[a].insert({b, weight});
 }
 
+void or_graph::remove(int a, int b) noexcept
+{
+   m_nodes[a].erase(b);
+}
+
+void or_graph::remove(int a) noexcept
+{
+   m_nodes.erase(a);
+}
+
 // Getters
 or_graph::reference_result or_graph::get(int a, int b) noexcept
 {
-   return m_nodes[a][b];
+   m_bad_result = -1;
+
+   if (m_nodes.count(a) > 0)
+      if (m_nodes[a].count(b) > 0)
+         return (reference_result)m_nodes[a][b];
+
+   return m_bad_result;
 }
 
 or_graph::reference_result or_graph::operator()(int a, int b) noexcept

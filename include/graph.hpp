@@ -11,7 +11,7 @@ class or_graph
 public:
    using value = std::map<int, unsigned>;
    using iterator = value::iterator;
-   using result = unsigned;
+   using result = int;
    using reference_result = result &;
 
    // Constructors
@@ -21,6 +21,9 @@ public:
 
    // Logic
    void add(int a, int b, unsigned weight) noexcept;
+   
+   void remove(int a, int b) noexcept;
+   void remove(int a) noexcept;
 
    // Getters
    reference_result get(int a, int b) noexcept;
@@ -36,6 +39,8 @@ public:
 
 private:
    std::map<int, value> m_nodes;
+
+   int m_bad_result = -1;
 };
 
 // Main method that read dataset  from file and return them.

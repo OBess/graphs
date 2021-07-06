@@ -51,35 +51,34 @@ TEST(or_graph, GetNode)
    ASSERT_EQ(gr(2, 4), 7);
    gr.get(2, 4) = 5;
    ASSERT_EQ(gr(2, 4), 5);
-
 }
 
-// TEST(or_graph, RemoveNodeOrConnection)
-// {
-//    or_graph gr = make_or_graph(path);
+TEST(or_graph, RemoveNodeOrConnection)
+{
+   or_graph gr = make_or_graph(path);
 
-//    gr.add(1, 3, 5);
-//    gr.add(5, 1, 2);
+   gr.add(1, 3, 5);
+   gr.add(5, 1, 2);
 
-//    ASSERT_EQ(gr(0, 1), 3);
-//    ASSERT_EQ(gr(1, 0), 4);
-//    ASSERT_EQ(gr(0, 2), 2);
-//    ASSERT_EQ(gr(2, 3), 5);
-//    ASSERT_EQ(gr(2, 4), 7);
-//    ASSERT_EQ(gr(1, 3), 5);
-//    ASSERT_EQ(gr(2, 0), 7);
+   ASSERT_EQ(gr(0, 1), 3);
+   ASSERT_EQ(gr(1, 0), 4);
+   ASSERT_EQ(gr(0, 2), 2);
+   ASSERT_EQ(gr(2, 3), 5);
+   ASSERT_EQ(gr(2, 4), 7);
+   ASSERT_EQ(gr(1, 3), 5);
+   ASSERT_EQ(gr(5, 1), 2);
 
-//    gr.remove(1, 0);
-//    gr.remove(2);
+   gr.remove(1, 0);
+   gr.remove(2);
 
-//    ASSERT_EQ(gr(0, 1), 3);
-//    ASSERT_EQ(gr(1, 0), -1);
-//    ASSERT_EQ(gr(0, 2), 2);
-//    ASSERT_EQ(gr(2, 3), -1);
-//    ASSERT_EQ(gr(2, 4), -1);
-//    ASSERT_EQ(gr(1, 3), 5);
-//    ASSERT_EQ(gr(2, 0), -1);
-// }
+   ASSERT_EQ(gr(0, 1), 3);
+   ASSERT_EQ(gr(1, 0), -1);
+   ASSERT_EQ(gr(0, 2), 2);
+   ASSERT_EQ(gr(2, 3), -1);
+   ASSERT_EQ(gr(2, 4), -1);
+   ASSERT_EQ(gr(1, 3), 5);
+   ASSERT_EQ(gr(5, 1), 2);
+}
 
 // TEST(or_graph, CopyConstructor)
 // {
