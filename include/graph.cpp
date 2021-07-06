@@ -38,11 +38,7 @@ std::vector<unsigned> or_graph::bfs(unsigned start) const noexcept
 
    std::vector<unsigned> path;
    std::vector<bool> visited;
-   visited.resize(std::max_element(m_nodes.begin(), m_nodes.end(),
-                                   [](const auto &l, const auto &r)
-                                   { return l.first < r.first; })
-                      ->first +
-                  1);
+   visited.resize(max_node());
    visited[start] = true;
 
    while (!storage.empty())
@@ -73,11 +69,7 @@ std::vector<unsigned> or_graph::dfs(unsigned start) const noexcept
 
    std::vector<unsigned> path;
    std::vector<bool> visited;
-   visited.resize(std::max_element(m_nodes.begin(), m_nodes.end(),
-                                   [](const auto &l, const auto &r)
-                                   { return l.first < r.first; })
-                      ->first +
-                  1);
+   visited.resize(max_node());
    visited[start] = true;
 
    while (!storage.empty())
@@ -101,8 +93,64 @@ std::vector<unsigned> or_graph::dfs(unsigned start) const noexcept
 std::vector<unsigned> or_graph::shortest(unsigned start, unsigned end) const noexcept
 {
    if (m_nodes.count(start) == 0 || empty())
-      return {};
-   return {};
+		return {};
+
+	std::vector<unsigned> path;
+
+	// ----- Init
+
+	const unsigned max = -1;
+
+	std::vector<unsigned> v_short;
+	std::vector<unsigned> ancestors;
+
+	v_short.resize(max_node(), max);
+	ancestors.resize(v_short.size(), max);
+
+	v_short[start] = 0;
+	ancestors[start] = start;
+
+	// ----- Find shortest
+
+	std::queue<unsigned> storage;
+	storage.push(start);
+
+	std::vector<bool> visited;
+	visited.resize(max_node());
+	visited[start] = true;
+
+	while (!storage.empty())
+	{
+		auto value = storage.front();
+		const auto& tmp = m_nodes.at(value);
+		storage.pop();
+
+		for (const auto& t : tmp)
+		{
+			if (!visited[t.first])
+			{
+				storage.push(t.first);
+				visited[t.first] = true;
+			}
+			if (v_short[value] + t.second < v_short[t.first])
+			{
+				ancestors[t.first] = value;
+				v_short[t.first] = v_short[value] + t.second;
+			}			
+		}
+	}
+
+	// ----- Find path
+   while(end != start)
+   {
+      path.push_back(end);
+      end = ancestors[end];
+   }
+   path.push_back(end);
+
+   std::reverse(path.begin(), path.end());
+
+	return path;
 }
 
 // Getters
@@ -148,4 +196,14 @@ void swap(or_graph &a, or_graph &b) noexcept
    using std::swap;
 
    swap(a.m_nodes, b.m_nodes);
+}
+
+// Auxiliary
+size_t or_graph::max_node() const noexcept
+{
+   return std::max_element(std::begin(m_nodes), std::end(m_nodes),
+                           [](const auto &l, const auto &r)
+                           { return l.first < r.first; })
+              ->first +
+          1;
 }
