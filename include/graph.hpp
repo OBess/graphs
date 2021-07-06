@@ -1,15 +1,18 @@
 #pragma once
 
 // C++
+#include <algorithm>
 #include <iterator>
 #include <fstream>
 #include <vector>
+#include <stack>
+#include <queue>
 #include <map>
 
 class or_graph
 {
 public:
-   using value = std::map<int, unsigned>;
+   using value = std::map<unsigned, unsigned>;
    using iterator = value::iterator;
    using result = int;
    using reference_result = result &;
@@ -20,14 +23,20 @@ public:
    or_graph(or_graph &&other) noexcept;
 
    // Logic
-   void add(int a, int b, unsigned weight) noexcept;
+   void add(unsigned a, unsigned b, unsigned weight) noexcept;
    
-   void remove(int a, int b) noexcept;
-   void remove(int a) noexcept;
+   void remove(unsigned a, unsigned b) noexcept;
+   void remove(unsigned a) noexcept;
+
+   // Algorithms
+   std::vector<unsigned> bfs(unsigned start) const noexcept;
+   std::vector<unsigned> dfs(unsigned start) const noexcept;
+   std::vector<unsigned> shortest(unsigned start, unsigned end) const noexcept;
 
    // Getters
-   reference_result get(int a, int b) noexcept;
-   reference_result operator()(int a, int b) noexcept;
+   reference_result get(unsigned a, unsigned b) noexcept;
+   reference_result operator()(unsigned a, unsigned b) noexcept;
+   bool empty() const noexcept;
 
    // Assignments operators
    or_graph &operator=(const or_graph &other) noexcept;
@@ -38,7 +47,7 @@ public:
    friend void swap(or_graph &a, or_graph &b) noexcept;
 
 private:
-   std::map<int, value> m_nodes;
+   std::map<unsigned, value> m_nodes;
 
    int m_bad_result = -1;
 };
@@ -49,7 +58,7 @@ static or_graph make_or_graph(const std::string &path)
    // Our file
    std::ifstream file(path);
 
-   // Oject to return
+   // Object to return
    or_graph gr;
 
    // Tmp values

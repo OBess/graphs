@@ -11,23 +11,64 @@ or_graph::or_graph(or_graph &&other) noexcept
 }
 
 // Logic
-void or_graph::add(int a, int b, unsigned weight) noexcept
+void or_graph::add(unsigned a, unsigned b, unsigned weight) noexcept
 {
    m_nodes[a].insert({b, weight});
+   m_nodes[b];
 }
 
-void or_graph::remove(int a, int b) noexcept
+void or_graph::remove(unsigned a, unsigned b) noexcept
 {
    m_nodes[a].erase(b);
 }
 
-void or_graph::remove(int a) noexcept
+void or_graph::remove(unsigned a) noexcept
 {
    m_nodes.erase(a);
 }
 
+// Algorithms
+std::vector<unsigned> or_graph::bfs(unsigned start) const noexcept
+{
+   std::queue<unsigned> storage;
+   storage.push(start);
+
+   std::vector<unsigned> path;
+   std::vector<bool> visited;
+   visited.resize(std::max_element(m_nodes.begin(), m_nodes.end(),
+                        [](const auto &l, const auto &r) { return l.first < r.first; })->first + 1);
+   visited[start] = true;
+
+   while (!storage.empty())
+   {
+      auto value = storage.front();
+      const auto &tmp = m_nodes.at(value);
+      path.push_back(value);
+      storage.pop();
+
+      for (const auto &t : tmp)
+         if (!visited[t.first])
+         {
+            storage.push(t.first);
+            visited[t.first] = true;
+         }
+   }
+
+   return path;
+}
+
+std::vector<unsigned> or_graph::dfs(unsigned start) const noexcept
+{
+   return {};
+}
+
+std::vector<unsigned> or_graph::shortest(unsigned start, unsigned end) const noexcept
+{
+   return {};
+}
+
 // Getters
-or_graph::reference_result or_graph::get(int a, int b) noexcept
+or_graph::reference_result or_graph::get(unsigned a, unsigned b) noexcept
 {
    m_bad_result = -1;
 
@@ -38,9 +79,14 @@ or_graph::reference_result or_graph::get(int a, int b) noexcept
    return m_bad_result;
 }
 
-or_graph::reference_result or_graph::operator()(int a, int b) noexcept
+or_graph::reference_result or_graph::operator()(unsigned a, unsigned b) noexcept
 {
    return get(a, b);
+}
+
+bool or_graph::empty() const noexcept
+{
+   return m_nodes.empty();
 }
 
 // Assignments operators
