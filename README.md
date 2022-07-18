@@ -1,5 +1,5 @@
 # graphs
-Simple graph structure with three shortest path search approaches.
+Graph structure with three shortest path search approaches.
 
 ## Used graphs (reference: https://graphonline.ru/en/)
 ### graph.txt
